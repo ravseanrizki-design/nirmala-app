@@ -1,20 +1,40 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export default function BackgroundMusic() {
-  const audioRef = useRef<HTMLAudioElement>(null);
-
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.2;
-      audioRef.current.play().catch(() => {});
-    }
+    const startMusic = () => {
+      const audio = document.getElementById(
+        "nirmala-music"
+      ) as HTMLAudioElement;
+
+      if (audio) {
+        audio.volume = 0.2;
+        audio.play().catch(() => {});
+      }
+
+      window.removeEventListener(
+        "click",
+        startMusic
+      );
+    };
+
+    window.addEventListener(
+      "click",
+      startMusic
+    );
+
+    return () =>
+      window.removeEventListener(
+        "click",
+        startMusic
+      );
   }, []);
 
   return (
     <audio
-      ref={audioRef}
+      id="nirmala-music"
       src="/rain.mp3"
       loop
     />
