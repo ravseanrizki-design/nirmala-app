@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* 🌱 ROOT COLOR */
+:root {
+--background: #ffffff;
+--foreground: #171717;
+}
+
+/* 🎨 THEME */
+
+/* 🌙 DARK MODE */
+@media (prefers-color-scheme: dark) {
+:root {
+--background: #0a0a0a;
+--foreground: #ededed;
+}
+}
+
+/* 🌍 GLOBAL STYLE */
+html {
+scroll-behavior: smooth;
+}
+
+body {
+background: var(--background);
+color: var(--foreground);
+font-family: "Poppins", Arial, Helvetica, sans-serif;
+text-rendering: optimizeLegibility;
+}
+
+/* 🎨 SELEKSI TEKS */
+::selection {
+background: rgba(147, 197, 253, 0.35);
+color: white;
+}
+
+/* 🎨 SCROLLBAR */
+::-webkit-scrollbar {
+width: 8px;
+}
+
+::-webkit-scrollbar-track {
+background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+background: rgba(255, 255, 255, 0.2);
+border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: rgba(255, 255, 255, 0.35);
+}
+
+/* ✨ FADE IN */
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.animate-fadeIn {
+animation: fadeIn 0.8s ease-out;
+}
+
+/* ✨ FADE SCALE */
+@keyframes fadeScale {
+from {
+opacity: 0;
+transform: translateY(20px) scale(0.97);
+}
+to {
+opacity: 1;
+transform: translateY(0) scale(1);
+}
+}
+
+.animate-fadeScale {
+animation: fadeScale 0.6s ease-out;
+}
+
+/* 🌫️ BLUR HALUS */
+.backdrop-soft {
+backdrop-filter: blur(12px);
+}
