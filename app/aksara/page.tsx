@@ -1,73 +1,95 @@
+"use client";
+
 import Link from "next/link";
 
 export default function AksaraPage() {
   return (
     <main className="min-h-screen text-white relative">
+
       {/* Background */}
       <div className="fixed inset-0 -z-10">
         <img
           src="/bg.jpg"
-          className="w-full h-full object-cover"
           alt="Background"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 backdrop-blur-md" />
       </div>
- 
-      {/* Content */}
-      <section className="max-w-5xl mx-auto px-4 md:px-6 py-10 md:py-16">
-        <h1 className="text-3xl md:text-5xl font-light mb-4">
+
+      {/* Header */}
+      <section className="px-8 pt-16 text-center">
+        <h1 className="text-6xl mb-4">
           Aksara
         </h1>
 
-        <p className="text-white/70 text-sm md:text-base mb-10 md:mb-12">
-          Tempat perasaan diterjemahkan menjadi kata.
+        <p className="text-white/70 text-xl max-w-2xl mx-auto">
+          Tempat perasaan diterjemahkan menjadi kata,
+          makna, puisi, dan pelukan yang menenangkan.
         </p>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          <Link
-            href="/tulis"
-            className="bg-white/10 p-5 md:p-6 rounded-xl hover:bg-white/20 transition"
-          >
-            <h2 className="text-xl md:text-2xl mb-2">
+      {/* Menu */}
+      <section className="grid md:grid-cols-2 gap-8 p-8 max-w-6xl mx-auto">
+
+        {/* Tulis Perasaan */}
+        <Link href="/tulis">
+          <div className="rounded-3xl bg-white/10 p-8 backdrop-blur-md hover:bg-white/20 transition cursor-pointer h-full">
+            <h2 className="text-3xl mb-4">
               ✍️ Tulis Perasaan
             </h2>
 
-            <p className="text-white/70 text-sm md:text-base">
-              Ceritakan isi hatimu dan biarkan Nirmala membacanya.
+            <p className="text-white/70">
+              Tuliskan isi hatimu dan biarkan Nirmala
+              menerjemahkannya menjadi bahasa yang lebih indah.
             </p>
-          </Link>
+          </div>
+        </Link>
 
-          <div className="bg-white/10 p-5 md:p-6 rounded-xl">
-            <h2 className="text-xl md:text-2xl mb-2">
+        {/* Cermin Emosi */}
+        <Link href="/aksara/cermin-emosi">
+          <div className="rounded-3xl bg-white/10 p-8 backdrop-blur-md hover:bg-white/20 transition cursor-pointer h-full">
+            <h2 className="text-3xl mb-4">
               🪞 Cermin Emosi
             </h2>
 
-            <p className="text-white/70 text-sm md:text-base">
-              Menampilkan emosi dominan dari tulisanmu.
+            <p className="text-white/70">
+              Lihat emosi dominan yang muncul dari tulisanmu
+              dan pahami dirimu lebih dalam.
             </p>
           </div>
+        </Link>
 
-          <div className="bg-white/10 p-5 md:p-6 rounded-xl">
-            <h2 className="text-xl md:text-2xl mb-2">
+        {/* Pelukan Kata */}
+        <Link href="/aksara/pelukan-kata">
+          <div className="rounded-3xl bg-white/10 p-8 backdrop-blur-md hover:bg-white/20 transition cursor-pointer h-full">
+            <h2 className="text-3xl mb-4">
               🤍 Pelukan Kata
             </h2>
 
-            <p className="text-white/70 text-sm md:text-base">
-              Kalimat penguat yang hadir secara acak.
+            <p className="text-white/70">
+              Kalimat penguat yang hadir setiap hari
+              untuk menemanimu.
             </p>
           </div>
+        </Link>
 
-          <div className="bg-white/10 p-5 md:p-6 rounded-xl">
-            <h2 className="text-xl md:text-2xl mb-2">
+        {/* Puisi */}
+        <Link href="/aksara/puisi">
+          <div className="rounded-3xl bg-white/10 p-8 backdrop-blur-md hover:bg-white/20 transition cursor-pointer h-full">
+            <h2 className="text-3xl mb-4">
               ✨ Puisi
             </h2>
 
-            <p className="text-white/70 text-sm md:text-base">
-              Puisi pendek yang lahir dari suasana hatimu.
+            <p className="text-white/70">
+              Temukan puisi-puisi pendek yang lahir dari
+              berbagai suasana hati.
             </p>
           </div>
-        </div>
+        </Link>
+
       </section>
+
     </main>
   );
 }

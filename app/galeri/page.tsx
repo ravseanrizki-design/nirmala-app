@@ -57,7 +57,7 @@ export default function GaleriPage() {
               lalu hasilnya akan muncul di sini.
             </p>
 
-            <Link href="/tulis">
+            <Link href="/aksara/cermin-emosi">
               <button className="bg-white text-black px-6 py-3 rounded-full">
                 Mulai Menulis
               </button>

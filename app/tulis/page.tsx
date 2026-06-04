@@ -3,16 +3,19 @@
 import { kamusNirmala } from "../../data/kamus";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { puisiNirmala } from "../../data/puisi";
+import { pelukanKata } from "../../data/pelukan";
 
 type ResultType = {
   puisi: string;
   makna: string;
   saran: string;
   text: string;
+  bahasaNirmala: string;
   bahasaEmosi: string;
   maknaBahasa: string;
+  pelukan: string;
 };
-
 export default function TulisPage() {
   const router = useRouter();
 
@@ -136,6 +139,15 @@ if (emosi === "netral") {
     };
 
     const kata = kataEmosi[emosi];
+    const puisiRandom =
+  puisiNirmala[
+    Math.floor(Math.random() * puisiNirmala.length)
+  ];
+
+const pelukan =
+  pelukanKata[
+    Math.floor(Math.random() * pelukanKata.length)
+  ];
 
     const puisi = `
 Di antara sunyi yang jatuh perlahan,
@@ -174,13 +186,15 @@ layak untuk dipeluk.
     const saran = saranMap[emosi];
 
    const newResult: ResultType = {
-  puisi,
+  puisi: puisiRandom,
   makna,
   saran,
   text,
+  bahasaNirmala,
   bahasaEmosi,
   maknaBahasa,
-}; 
+  pelukan,
+};
     setResult(newResult);
 
     const updatedHistory = [newResult, ...history].slice(0, 5);
@@ -277,6 +291,15 @@ layak untuk dipeluk.
                 {result.puisi}
               </p>
             </div>
+            <div className="rounded-3xl bg-white/10 p-5">
+  <h3 className="mb-2 text-lg">
+    🤍 Pelukan Kata
+  </h3>
+
+  <p className="italic text-pink-100">
+    "{result.pelukan}"
+  </p>
+</div>
 
             <div className="rounded-3xl bg-white/10 p-5">
               <h3 className="mb-2 text-lg">
@@ -288,7 +311,7 @@ layak untuk dipeluk.
 
             <div className="rounded-3xl bg-white/10 p-5">
               <h3 className="mb-2 text-lg">
-                🌱 Pelukan Kata
+                🌱 Saran
               </h3>
 
               <p>{result.saran}</p>
