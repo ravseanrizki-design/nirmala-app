@@ -1,16 +1,16 @@
 "use client";
 
 import { kamusNirmala } from "../../data/kamus";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type ResultType = {
   puisi: string;
   makna: string;
   saran: string;
   text: string;
-  bahasaNirmala: string;
+  bahasaEmosi: string;
+  maknaBahasa: string;
 };
 
 export default function TulisPage() {
@@ -18,22 +18,21 @@ export default function TulisPage() {
 
   const [text, setText] = useState("");
   const [result, setResult] = useState<ResultType | null>(null);
-  const [bgColor, setBgColor] = useState("bg-black/30");
   const [history, setHistory] = useState<ResultType[]>([]);
+  const [bgColor, setBgColor] = useState("bg-black/30");
 
-  const rainRef = useRef<HTMLAudioElement | null>(null);
-  const musicRef = useRef<HTMLAudioElement | null>(null);
+  const rainRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    if (rainRef.current) {
-      rainRef.current.volume = 0.2;
-      rainRef.current.play().catch(() => {});
-    }
-
     const saved = localStorage.getItem("nirmala-history");
 
     if (saved) {
       setHistory(JSON.parse(saved));
+    }
+
+    if (rainRef.current) {
+      rainRef.current.volume = 0.15;
+      rainRef.current.play().catch(() => {});
     }
   }, []);
 
@@ -44,7 +43,7 @@ export default function TulisPage() {
       .split(" ")
       .map((kata) => {
         const bersih = kata.toLowerCase();
-        return kamusNirmala[bersih] || kata;
+        return (kamusNirmala as Record<string, string>)[bersih] || kata;
       })
       .join(" ");
 
@@ -52,77 +51,136 @@ export default function TulisPage() {
 
     let emosi = "netral";
 
-    if (lower.includes("sedih")) emosi = "sedih";
-    else if (lower.includes("marah")) emosi = "marah";
-    else if (lower.includes("lelah")) emosi = "lelah";
-    else if (lower.includes("kecewa")) emosi = "kecewa";
-    else if (lower.includes("bingung")) emosi = "bingung";
-    else if (lower.includes("rindu")) emosi = "rindu";
+    if (
+      lower.includes("sedih") ||
+      lower.includes("kecewa") ||
+      lower.includes("menangis")
+    ) {
+      emosi = "sedih";
+    } else if (
+      lower.includes("marah") ||
+      lower.includes("kesal")
+    ) {
+      emosi = "marah";
+    } else if (
+      lower.includes("lelah") ||
+      lower.includes("capek")
+    ) {
+      emosi = "lelah";
+    } else if (
+      lower.includes("rindu")
+    ) {
+      emosi = "rindu";
+    } else if (
+      lower.includes("bingung")
+    ) {
+      emosi = "bingung";
+    }
 
     const warna: Record<string, string> = {
-      sedih: "bg-blue-900/60",
-      marah: "bg-red-900/60",
-      lelah: "bg-purple-900/60",
-      kecewa: "bg-gray-800/60",
-      bingung: "bg-yellow-900/60",
-      rindu: "bg-pink-900/60",
+      sedih: "bg-blue-900/50",
+      marah: "bg-red-900/50",
+      lelah: "bg-purple-900/50",
+      rindu: "bg-pink-900/50",
+      bingung: "bg-yellow-900/50",
       netral: "bg-black/30",
     };
 
     setBgColor(warna[emosi]);
+    let bahasaEmosi = "";
+let maknaBahasa = "";
 
-    const kamusNirmala: Record<string, string> = {
-      sedih: "laram",
+if (emosi === "sedih") {
+  bahasaEmosi = "Gulana";
+  maknaBahasa =
+    "Gulana adalah keadaan hati yang dipenuhi kesedihan dan perenungan yang sunyi.";
+}
+
+if (emosi === "marah") {
+  bahasaEmosi = "Amarah";
+  maknaBahasa =
+    "Amarah adalah gejolak emosi yang muncul ketika hati merasa terluka atau tidak diterima.";
+}
+
+if (emosi === "lelah") {
+  bahasaEmosi = "Derana";
+  maknaBahasa =
+    "Derana menggambarkan kelelahan yang tidak hanya dirasakan tubuh tetapi juga jiwa.";
+}
+
+if (emosi === "rindu") {
+  bahasaEmosi = "Renjana";
+  maknaBahasa =
+    "Renjana adalah kerinduan yang mendalam terhadap seseorang, tempat, atau masa.";
+}
+
+if (emosi === "bingung") {
+  bahasaEmosi = "Resah";
+  maknaBahasa =
+    "Resah adalah keadaan hati yang mencari arah di tengah ketidakpastian.";
+}
+
+if (emosi === "netral") {
+  bahasaEmosi = "Saujana";
+  maknaBahasa =
+    "Saujana menggambarkan keluasan rasa yang tenang dan belum didominasi emosi tertentu.";
+}
+
+    const kataEmosi: Record<string, string> = {
+      sedih: "gulana",
       marah: "amarah",
-      lelah: "letih",
-      kecewa: "nestapa",
-      bingung: "resah",
+      lelah: "derana",
       rindu: "renjana",
+      bingung: "resah",
       netral: "saujana",
     };
 
-    const kata = kamusNirmala[emosi];
+    const kata = kataEmosi[emosi];
 
     const puisi = `
 Di antara sunyi yang jatuh perlahan,
 aku menemukan ${kata} dalam diam.
+
 Ia tidak berisik,
 namun cukup kuat untuk mengubah arah langkahku.
+
+Dan di sela waktu yang berjalan,
+aku belajar bahwa setiap rasa
+layak untuk dipeluk.
 `;
 
-    const makna = `Perasaanmu mengarah pada ${kata}.`;
+    const makna = `Tulisanmu menunjukkan nuansa ${kata}. Perasaan ini sedang cukup dominan dalam dirimu saat ini.`;
 
-    const saran =
-      "Pelan saja, kamu tidak harus memahami semuanya hari ini.";
+    const saranMap: Record<string, string> = {
+      sedih:
+        "Tidak apa-apa merasa sedih. Beri dirimu ruang untuk beristirahat dan menerima perasaan itu.",
 
-    const lagu: Record<string, string> = {
-      sedih: "/sedih.mp3",
-      marah: "/marah.mp3",
-      lelah: "/lelah.mp3",
-      kecewa: "/kecewa.mp3",
-      bingung: "/bingung.mp3",
-      rindu: "/rindu.mp3",
-      netral: "/netral.mp3",
+      marah:
+        "Cobalah memberi jeda sebelum bereaksi. Kadang ketenangan memberi jawaban yang lebih baik.",
+
+      lelah:
+        "Tubuh dan pikiranmu mungkin sedang meminta waktu untuk pulih. Istirahat juga bagian dari perjalanan.",
+
+      rindu:
+        "Rindu adalah bukti bahwa sesuatu pernah berarti. Tidak semua yang jauh harus dilupakan.",
+
+      bingung:
+        "Kamu tidak harus menemukan semua jawaban hari ini. Satu langkah kecil sudah cukup.",
+
+      netral:
+        "Teruslah mendengarkan isi hatimu dengan lembut.",
     };
 
-    if (musicRef.current) {
-      musicRef.current.src = lagu[emosi];
-      musicRef.current.volume = 0.6;
-      musicRef.current.play().catch(() => {});
-    }
+    const saran = saranMap[emosi];
 
-    if (rainRef.current) {
-      rainRef.current.volume = 0.1;
-    }
-
-    const newResult: ResultType = {
-      puisi,
-      makna,
-      saran,
-      text,
-      bahasaNirmala,
-    };
-
+   const newResult: ResultType = {
+  puisi,
+  makna,
+  saran,
+  text,
+  bahasaEmosi,
+  maknaBahasa,
+}; 
     setResult(newResult);
 
     const updatedHistory = [newResult, ...history].slice(0, 5);
@@ -138,16 +196,18 @@ namun cukup kuat untuk mengubah arah langkahku.
   return (
     <main className="relative min-h-screen text-white">
 
-      {/* AUDIO */}
-      <audio ref={rainRef} src="/rain.mp3" loop />
-      <audio ref={musicRef} loop />
+      <audio
+        ref={rainRef}
+        src="/rain.mp3"
+        loop
+      />
 
-      {/* BACKGROUND */}
+      {/* Background */}
       <div className="fixed inset-0 -z-10">
         <img
           src="/bg.jpg"
-          alt="Background Nirmala"
-          className="h-full w-full object-cover"
+          alt="Background"
+          className="w-full h-full object-cover"
         />
 
         <div
@@ -157,90 +217,79 @@ namun cukup kuat untuk mengubah arah langkahku.
         <div className="absolute inset-0 backdrop-blur-md" />
       </div>
 
-      {/* NAVBAR */}
-      <nav className="sticky top-0 z-20 border-b border-white/10 bg-white/10 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-4 py-4 md:px-10 md:py-6">
-          <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
-
-            <h1 className="text-lg font-light tracking-[0.3em]">
-              NIRMALA
-            </h1>
-
-            <div className="flex flex-wrap justify-center gap-3 text-xs md:gap-8 md:text-sm">
-              <Link href="/">Beranda</Link>
-              <Link href="/tulis">Tulis</Link>
-              <Link href="/aksara">Aksara</Link>
-              <Link href="/bahasa">Bahasa</Link>
-              <Link href="/karya">Karya</Link>
-              <Link href="/galeri">Galeri</Link>
-              <Link href="/tentang">Tentang</Link>
-            </div>
-
-          </div>
-        </div>
-      </nav>
-
-      {/* BACK BUTTON */}
+      {/* Back */}
       <button
         onClick={() => router.back()}
-        className="fixed left-4 top-24 rounded-full bg-white px-3 py-2 text-black shadow-lg"
+        className="fixed top-24 left-4 z-20 rounded-full bg-white px-3 py-2 text-black"
       >
         ←
       </button>
 
-      {/* CONTENT */}
-      <section className="flex min-h-screen flex-col items-center px-4 py-20">
+      <section className="mx-auto flex min-h-screen max-w-4xl flex-col px-4 py-24">
 
-        <h2 className="mb-6 text-center text-3xl md:text-5xl">
+        <h1 className="mb-4 text-center text-4xl md:text-5xl">
           Labirin Rasa
-        </h2>
+        </h1>
 
-        <p className="mb-8 max-w-2xl text-center text-white/70">
-          Tuliskan apa yang sedang kamu rasakan. Nirmala akan
-          menerjemahkannya menjadi bahasa, makna, dan puisi.
+        <p className="mb-8 text-center text-white/70">
+          Tuliskan isi hatimu. Nirmala akan membantu
+          menerjemahkannya menjadi bahasa, makna,
+          dan puisi.
         </p>
 
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Tulis perasaanmu di sini..."
-          className="h-48 w-full max-w-2xl rounded-2xl border border-white/20 bg-white/10 p-4 text-white backdrop-blur-md outline-none placeholder:text-white/50"
+          className="h-52 w-full rounded-3xl border border-white/20 bg-white/10 p-5 text-white backdrop-blur-md outline-none placeholder:text-white/50"
         />
 
         <button
           onClick={handleSubmit}
-          className="mt-6 rounded-full bg-white px-8 py-3 text-black transition hover:scale-105"
+          className="mx-auto mt-6 rounded-full bg-white px-8 py-3 text-black transition hover:scale-105"
         >
           Analisis
         </button>
 
         {result && (
-          <div className="mt-10 w-full max-w-2xl space-y-4">
+          <div className="mt-10 space-y-4">
 
-            <div className="rounded-2xl bg-white/10 p-5">
-              <h3 className="mb-2 text-lg">📖 Bahasa Nirmala</h3>
+          <div className="rounded-3xl bg-white/10 p-5">
+  <h3 className="mb-3 text-lg">
+    📖 Bahasa Nirmala
+  </h3>
 
-              <p className="italic text-blue-200">
-                {result.bahasaNirmala}
-              </p>
-            </div>
+  <p className="mb-3 text-xl font-semibold text-blue-200">
+    Perasaanmu saat ini disebut "{result.bahasaEmosi}"
+  </p>
 
-            <div className="rounded-2xl bg-white/10 p-5">
-              <h3 className="mb-2 text-lg">✨ Puisi</h3>
+  <p className="text-white/80">
+    {result.maknaBahasa}
+  </p>
+</div>  
+
+            <div className="rounded-3xl bg-white/10 p-5">
+              <h3 className="mb-2 text-lg">
+                ✨ Puisi
+              </h3>
 
               <p className="whitespace-pre-line">
                 {result.puisi}
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white/10 p-5">
-              <h3 className="mb-2 text-lg">🧠 Makna</h3>
+            <div className="rounded-3xl bg-white/10 p-5">
+              <h3 className="mb-2 text-lg">
+                🧠 Makna
+              </h3>
 
               <p>{result.makna}</p>
             </div>
 
-            <div className="rounded-2xl bg-white/10 p-5">
-              <h3 className="mb-2 text-lg">🌱 Saran</h3>
+            <div className="rounded-3xl bg-white/10 p-5">
+              <h3 className="mb-2 text-lg">
+                🌱 Pelukan Kata
+              </h3>
 
               <p>{result.saran}</p>
             </div>
@@ -249,17 +298,18 @@ namun cukup kuat untuk mengubah arah langkahku.
         )}
 
         {history.length > 0 && (
-          <div className="mt-12 w-full max-w-2xl">
+          <div className="mt-10">
 
             <h3 className="mb-4 text-xl">
-              🕰️ Riwayat
+              🕰️ Riwayat Tulisan
             </h3>
 
             <div className="space-y-3">
+
               {history.map((item, index) => (
                 <div
                   key={index}
-                  className="rounded-xl bg-white/5 p-4"
+                  className="rounded-2xl bg-white/5 p-4"
                 >
                   <p className="text-sm text-white/60">
                     "{item.text}"
@@ -270,21 +320,12 @@ namun cukup kuat untuk mengubah arah langkahku.
                   </p>
                 </div>
               ))}
-            </div>
 
+            </div>
           </div>
         )}
 
       </section>
-
-      {/* WATERMARK */}
-      <div className="fixed bottom-4 left-0 w-full text-center pointer-events-none">
-        <p className="text-sm italic text-white/40">
-          {result?.makna ||
-            "Tulisan terindahmu adalah bentuk perasaanmu hari ini."}
-        </p>
-      </div>
-
     </main>
   );
 }

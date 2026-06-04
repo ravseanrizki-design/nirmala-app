@@ -28,18 +28,6 @@ export default function GaleriPage() {
         <div className="absolute inset-0 backdrop-blur-sm" />
       </div>
 
-      {/* Navbar */}
-      <nav className="sticky top-0 z-20 flex justify-between px-10 py-6 bg-white/10 backdrop-blur-md border-b border-white/10">
-        <h1 className="tracking-[0.3em]">NIRMALA</h1>
-
-        <div className="flex gap-6">
-          <Link href="/">Beranda</Link>
-          <Link href="/tulis">Tulis</Link>
-          <Link href="/aksara">Aksara</Link>
-          <Link href="/bahasa">Bahasa</Link>
-          <Link href="/tentang">Tentang</Link>
-        </div>
-      </nav>
 
       {/* Header */}
       <section className="text-center pt-20 pb-12 px-6">

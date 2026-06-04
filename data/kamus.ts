@@ -1,4 +1,4 @@
-export const kamusNirmala = {
+export const kamusNirmala: Record<string, string> = {
   // Emosi
   sedih: "gulana",
   pilu: "sendu",

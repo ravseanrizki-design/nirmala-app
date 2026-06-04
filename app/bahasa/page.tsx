@@ -17,18 +17,6 @@ export default function BahasaPage() {
         <div className="absolute inset-0 bg-black/60 backdrop-blur-md" />
       </div>
 
-      {/* Navbar */}
-      <nav className="sticky top-0 z-20 flex justify-between px-10 py-6 bg-white/10 backdrop-blur-md">
-        <h1 className="text-xl font-bold">NIRMALA</h1>
-
-        <div className="flex gap-6">
-          <Link href="/">Home</Link>
-          <Link href="/tulis">Aksara</Link>
-          <Link href="/bahasa">Bahasa</Link>
-          <Link href="/galeri">Galeri</Link>
-          <Link href="/tentang">Tentang</Link>
-        </div>
-      </nav>
 
       <section className="max-w-5xl mx-auto px-6 py-16">
 

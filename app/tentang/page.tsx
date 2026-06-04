@@ -22,18 +22,6 @@ export default function TentangPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,255,255,0.15)_1px,transparent_1px)] bg-[size:25px_25px] opacity-20" />
       </div>
 
-      {/* NAVBAR */}
-      <nav className="flex justify-between items-center px-10 py-6 backdrop-blur-md bg-white/10 border-b border-white/10 sticky top-0 z-20">
-        <h1 className="text-xl tracking-[0.3em] font-light">
-          NIRMALA
-        </h1>
-
-        <div className="flex gap-8 text-sm">
-          <Link href="/">Home</Link>
-          <Link href="/tulis">Tulis</Link>
-          <Link href="/tentang">Tentang</Link>
-        </div>
-      </nav>
 
       {/* BACK BUTTON */}
       <button
